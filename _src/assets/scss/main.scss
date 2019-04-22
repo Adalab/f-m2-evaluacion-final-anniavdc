@@ -1,5 +1,14 @@
 @import 'core/settings';
 
 body {
-	background: white;
+	background: rgb(190, 190, 190);
+}
+
+.favorites{
+	background-color: rgb(126, 0, 126);
+	color: white;
+}
+
+.list__item{
+	list-style: none;
 }
