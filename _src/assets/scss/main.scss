@@ -1,19 +1,6 @@
 @import 'core/variables';
 
-body {
-	background: rgb(190, 190, 190);
-}
+@import 'layout/base';
+@import 'layout/header';
+@import 'layout/main';
 
-.favorites{
-	background-color: rgb(126, 0, 126);
-	color: white;
-}
-
-.show__item, .favorites__item{
-	list-style: none;
-}
-
-.page__main{
-	display: flex;
-	justify-content: space-between;
-}

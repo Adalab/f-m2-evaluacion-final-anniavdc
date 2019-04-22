@@ -1,0 +1,13 @@
+.favorites{
+	background-color: $colorSecondary-700;
+	color: $colorPrimary-100;
+}
+
+.show__item, .favorites__item{
+	list-style: none;
+}
+
+.page__main{
+	display: flex;
+	justify-content: space-between;
+}
