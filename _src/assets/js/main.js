@@ -15,7 +15,7 @@ const listElement = document.querySelector('.list-shows');
     //ul favorites
 const listFavElement = document.querySelector('.list-favorites');
     //array vacío
-const favoritesArr = [];
+let favoritesArr = [];
 
 //fetch a URL de TVMaze
 function handlerClick(){
@@ -51,7 +51,6 @@ fetch(`http://api.tvmaze.com/search/shows?q=${userSearch}`)
     }
     const items = document.querySelectorAll('.show__item');
     handlerItem(items);
-    console.log(favoritesArr);
     
 })
 
@@ -60,17 +59,16 @@ fetch(`http://api.tvmaze.com/search/shows?q=${userSearch}`)
 buttonElement.addEventListener('click', handlerClick);
 
 //Favoritos: al hacer clic sobre un resultado el color de fondo y el de fuente se intercambian.
-function changeClass(event) {
+function handlerEvents(event) {
     const element = event.currentTarget;
     element.classList.toggle('favorites'); 
-
     favorites(element);
-    saveCache(element);
+    // saveCache(element);
 }
 
 function handlerItem(items){
     for (let i = 0; i < items.length; i++) {
-      items[i].addEventListener('click', changeClass);
+      items[i].addEventListener('click', handlerEvents);
     }
 }
   
@@ -85,6 +83,15 @@ function favorites(element){
         }
         
 }
+
+// function createLi(element, itemClass){
+//     const item = document.createElement('li');
+//     item.setAttribute('class', itemClass);
+//     const title = document.createTextNode(element.name);
+//     const image = document.createElement('img');
+//     item.appendChild(image);
+//     item.appendChild(title);
+// }
 
 function createFavoritesList(element){
 
@@ -102,7 +109,29 @@ function createFavoritesList(element){
 
 //Vamos a almacenar el listado de favoritos en el localStorage. De esta forma, al recargar la página el listado de favoritos se mantiene
 function saveCache(element){
-    localStorage.setItem('favorites', JSON.stringify(element.innerText));
+    favoritesArr = createObject(element)
+    localStorage.setItem('favorites', JSON.stringify(favoritesArr));
 }
 
+function createObject(element){
+    return {name:element.innerText, src: element.lastElementChild.currentSrc}
+}
+
+function getCache(){
+    const arrString = localStorage.getItem('favorites');
+    const arrParse = JSON.parse(arrString);
+
+    return arrParse;
+}
+
+// function fillFavoritesWithUserSearch(){
+
+// }
+// function reloadPage(){
+//     const userSearchFromCache = getCache();
+//     if(userSearchFromCache){
+//         favoritesArr = userSearchFromCache;
+//         fillFavoritesWithUserSearch();
+//     }
+// }
 //Hacer CSS
