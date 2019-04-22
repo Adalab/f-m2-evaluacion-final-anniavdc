@@ -65,13 +65,13 @@ function changeClass(event) {
     element.classList.toggle('favorites'); 
 
     favorites(element);
+    saveCache(element);
 }
 
 function handlerItem(items){
     for (let i = 0; i < items.length; i++) {
       items[i].addEventListener('click', changeClass);
     }
-    console.log(favoritesArr);
 }
   
 
@@ -101,5 +101,8 @@ function createFavoritesList(element){
 //si volvemos a realizar una nueva búsqueda, los favoritos se irán acumulando en nuestra lista.
 
 //Vamos a almacenar el listado de favoritos en el localStorage. De esta forma, al recargar la página el listado de favoritos se mantiene
+function saveCache(element){
+    localStorage.setItem('favorites', JSON.stringify(element.innerText));
+}
 
 //Hacer CSS
