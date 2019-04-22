@@ -9,6 +9,11 @@ body {
 	color: white;
 }
 
-.show__item{
+.show__item, .favorites__item{
 	list-style: none;
+}
+
+.page__main{
+	display: flex;
+	justify-content: space-between;
 }

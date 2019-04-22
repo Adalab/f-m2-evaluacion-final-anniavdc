@@ -80,17 +80,24 @@ function handlerItem(items){
 function favorites(element){
         if(element.classList.contains('favorites')){
             favoritesArr.push(element);
-
-            const favoritesList = document.createElement('li');
-            const favoritesContent = document.createTextNode(element.innerText);
-            const favoritesImage = document.createElement('img');
-            favoritesList.appendChild(favoritesContent);
-            favoritesList.appendChild(favoritesImage);
-            listFavElement.appendChild(favoritesList);   
+            
+            createFavoritesList(element);
         }
         
 }
 
+function createFavoritesList(element){
+
+    const favoritesList = document.createElement('li');
+    favoritesList.setAttribute('class', 'favorites__item')
+    const favoritesContent = document.createTextNode(element.innerText);
+    const favoritesImage = document.createElement('img');
+    favoritesImage.src = element.lastElementChild.currentSrc;
+
+    favoritesList.appendChild(favoritesContent);
+    favoritesList.appendChild(favoritesImage);
+    listFavElement.appendChild(favoritesList);
+}
 //si volvemos a realizar una nueva búsqueda, los favoritos se irán acumulando en nuestra lista.
 
 //Vamos a almacenar el listado de favoritos en el localStorage. De esta forma, al recargar la página el listado de favoritos se mantiene
