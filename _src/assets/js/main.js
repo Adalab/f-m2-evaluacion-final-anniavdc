@@ -26,18 +26,27 @@ fetch(`http://api.tvmaze.com/search/shows?q=${userSearch}`)
     //Por cada show contenido en el resultado de búsqueda debemos pintar una tarjeta donde mostramos una imagen de la serie y el título.
     for(let i = 0; i < showData.length; i++){
         const showObject = showData[i].show;
-        console.log(showObject);
-
+        const showImageObject = showObject.image;
+        
         const showItem = document.createElement('li');
-        const showTitle = document.createTextNode(showData[i].show.name);
+        const showImage = document.createElement('img');
+        listElement.appendChild(showImage);
+        //if
+        if(!showImageObject){
+            //el show no tiene imagen, crear una imagen de relleno con placeholder https://via.placeholder.com/210x295/ffffff/666666/?text=TV
+            showImage.src = 'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+        }else{
+            const showOwnImage = showObject.image.medium;
+            showImage.src = showOwnImage; 
+        }
+        
+        const showTitle = document.createTextNode(showObject.name);
         showItem.appendChild(showTitle);
         listElement.appendChild(showItem);
+        
     }
 })
      
-    
-    //if
-        //el show no tiene imagen, crear una imagen de relleno con placeholder https://via.placeholder.com/210x295/ffffff/666666/?text=TV
 
 //Favoritos: al hacer clic sobre un resultado el color de fondo y el de fuente se intercambian.
     //Crear un listado (array) con las series favoritas que almacenamos en una variable. Se mostrará en la parte izquierda de la pantalla, debajo del formulario de búqueda.
