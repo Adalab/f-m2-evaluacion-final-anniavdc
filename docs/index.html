@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
         <link rel="stylesheet" href="assets/css/main.css">
         <title>Evaluación</title>
     </head>
@@ -15,9 +16,18 @@
 
         </header>
         <main class="page__main">
-            <label for="search">Buscar</label>
-            <input type="text" id="search">
-            <button class="button">Search</button>
+            <section class="page__section-favorites">
+                <label for="search" class="label-search">Buscar</label>
+                <input type="text" id="search">
+                <button class="button-search">Search</button>
+                 <h2 class="page__title-favorites">Mis series favoritas</h2>
+
+                <button class="button-erase">Borrar favoritos</button>
+                <ul class="list-favorites"></ul>
+            </section>
+            <section class="page__section-shows">
+                <ul class="list-shows"></ul>
+            </section>
         </main>
         <script type="text/javascript" src="assets/js/main.js"></script>
     </body>
