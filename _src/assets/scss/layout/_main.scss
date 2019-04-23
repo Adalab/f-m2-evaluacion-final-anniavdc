@@ -11,3 +11,17 @@
 	display: flex;
 	justify-content: space-between;
 }
+
+.label-search{
+	visibility: hidden;
+	position: absolute;
+	top: -1000;
+}
+#search{
+	border: none;
+	border-bottom: 2px solid $colorPrimary-400;
+	padding: 10px;
+}
+.page__title-favorites{
+	text-align: center;
+}

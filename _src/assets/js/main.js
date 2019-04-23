@@ -16,6 +16,7 @@ const listElement = document.querySelector('.list-shows');
 const listFavElement = document.querySelector('.list-favorites');
     //array vacío
 let favoritesArr = [];
+let favoritesCacheArr = [];
 
 //fetch a URL de TVMaze
 function handlerClick(){
@@ -30,23 +31,24 @@ fetch(`http://api.tvmaze.com/search/shows?q=${userSearch}`)
     for(let i = 0; i < showData.length; i++){
         
         const showObject = showData[i].show;
+        console.log(showObject);
         const showImageObject = showObject.image;
         
-        const showItem = document.createElement('li');
-        showItem.setAttribute('class', 'show__item');
-        const showTitle = document.createTextNode(showObject.name);
-        const showImage = document.createElement('img');
-        showItem.appendChild(showImage);
-        showItem.appendChild(showTitle);
-        listElement.appendChild(showItem);
+        const item = document.createElement('li');
+        item.setAttribute('class', 'show__item');
+        const title = document.createTextNode(showObject.name);
+        const image = document.createElement('img');
+        item.appendChild(image);
+        item.appendChild(title);
+        listElement.appendChild(item);
         
         //if
         if(!showImageObject){
             //el show no tiene imagen, crear una imagen de relleno con placeholder https://via.placeholder.com/210x295/ffffff/666666/?text=TV
-            showImage.src = 'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+            image.src = 'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
         }else{
             const showOwnImage = showObject.image.medium;
-            showImage.src = showOwnImage; 
+            image.src = showOwnImage; 
         }  
     }
     const items = document.querySelectorAll('.show__item');
@@ -61,9 +63,8 @@ buttonElement.addEventListener('click', handlerClick);
 //Favoritos: al hacer clic sobre un resultado el color de fondo y el de fuente se intercambian.
 function handlerEvents(event) {
     const element = event.currentTarget;
-    element.classList.toggle('favorites'); 
     favorites(element);
-    // saveCache(element);
+    saveCache(element);
 }
 
 function handlerItem(items){
@@ -76,44 +77,46 @@ function handlerItem(items){
 //Crear un listado (array) con las series favoritas que almacenamos en una variable. Se mostrará en la parte izquierda de la pantalla, debajo del formulario de búqueda.
 
 function favorites(element){
+        element.classList.toggle('favorites');
         if(element.classList.contains('favorites')){
             favoritesArr.push(element);
-            
             createFavoritesList(element);
         }
         
 }
-
-// function createLi(element, itemClass){
-//     const item = document.createElement('li');
-//     item.setAttribute('class', itemClass);
-//     const title = document.createTextNode(element.name);
-//     const image = document.createElement('img');
-//     item.appendChild(image);
-//     item.appendChild(title);
-// }
-
-function createFavoritesList(element){
-
-    const favoritesList = document.createElement('li');
-    favoritesList.setAttribute('class', 'favorites__item')
-    const favoritesContent = document.createTextNode(element.innerText);
-    const favoritesImage = document.createElement('img');
-    favoritesImage.src = element.lastElementChild.currentSrc;
-
-    favoritesList.appendChild(favoritesContent);
-    favoritesList.appendChild(favoritesImage);
-    listFavElement.appendChild(favoritesList);
-}
 //si volvemos a realizar una nueva búsqueda, los favoritos se irán acumulando en nuestra lista.
+function createFavoritesList(element){
+    console.log(element);
+    
+    const item = document.createElement('li');
+    item.setAttribute('class', 'favorites__item')
+    const itemContent = document.createTextNode(element.innerText);
+    const image = document.createElement('img');
+    image.src = element.lastElementChild.currentSrc;
+
+    item.appendChild(itemContent);
+    item.appendChild(image);
+    listFavElement.appendChild(item);
+}
 
 //Vamos a almacenar el listado de favoritos en el localStorage. De esta forma, al recargar la página el listado de favoritos se mantiene
-function saveCache(element){
-    favoritesArr = createObject(element)
-    localStorage.setItem('favorites', JSON.stringify(favoritesArr));
+function createLiFromCacheObject(object, itemClass){
+    const item = document.createElement('li');
+    item.setAttribute('class', itemClass);
+    const title = document.createTextNode(object.name);
+    const image = document.createElement('img');
+    image.src = object.src;
+    item.appendChild(image);
+    item.appendChild(title);
+    return item
 }
 
-function createObject(element){
+function saveCache(element){
+    favoritesCacheArr.push(createObject(element));
+    localStorage.setItem('favorites', JSON.stringify(favoritesCacheArr));
+}
+
+function createObject(element){ 
     return {name:element.innerText, src: element.lastElementChild.currentSrc}
 }
 
@@ -124,14 +127,23 @@ function getCache(){
     return arrParse;
 }
 
-// function fillFavoritesWithUserSearch(){
+function fillFavoritesWithUserSearch(arr){
+    for(let i = 0; i < arr.length; i++){
+        const li = createLiFromCacheObject(arr[i],'favorites__item');
+        listFavElement.appendChild(li);
+    }
+}
+function reloadPage(){
+    const userSearchFromCache = getCache();
+    if(userSearchFromCache){
+        favoritesCacheArr = userSearchFromCache;
+        console.log(favoritesCacheArr);
+        
+        fillFavoritesWithUserSearch(favoritesCacheArr);
+    }
+}
+reloadPage();
 
-// }
-// function reloadPage(){
-//     const userSearchFromCache = getCache();
-//     if(userSearchFromCache){
-//         favoritesArr = userSearchFromCache;
-//         fillFavoritesWithUserSearch();
-//     }
-// }
 //Hacer CSS
+//BONUS
+ 
