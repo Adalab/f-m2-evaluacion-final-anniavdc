@@ -36,11 +36,13 @@ fetch(`http://api.tvmaze.com/search/shows?q=${userSearch}`)
         
         const item = document.createElement('li');
         item.setAttribute('class', 'show__item');
+        const titleContainer = document.createElement('h3');
         const title = document.createTextNode(showObject.name);
         const image = document.createElement('img');
 
+        titleContainer.appendChild(title);
         item.appendChild(image);
-        item.appendChild(title);
+        item.appendChild(titleContainer);
         listElement.appendChild(item);
         
         //if
@@ -90,20 +92,21 @@ function favorites(element){
             console.log('Ya has incluido este show en favoritos'); 
         }
 }
+
 //si volvemos a realizar una nueva búsqueda, los favoritos se irán acumulando en nuestra lista.
 function createFavoritesList(element){
     console.log(element);
     
     const item = document.createElement('li');
     item.setAttribute('class', 'favorites__item');
-    const itemTitle = document.createElement('h3');
-    const itemContent = document.createTextNode(element.innerText);
+    const titleContainer = document.createElement('h3');
+    const title = document.createTextNode(element.innerText);
     const image = document.createElement('img');
-    image.src = element.lastElementChild.currentSrc;
+    image.src = element.firstChild.currentSrc;
 
-    itemTitle.appendChild(itemContent);
-    item.appendChild(itemTitle);
+    titleContainer.appendChild(title);
     item.appendChild(image);
+    item.appendChild(titleContainer);
     listFavElement.appendChild(item);
 }
 
@@ -127,7 +130,7 @@ function saveCache(element){
 }
 
 function createObject(element){ 
-    return {name:element.innerText, src: element.lastElementChild.currentSrc}
+    return {name:element.innerText, src: element.firstChild.currentSrc}
 }
 
 function getCache(){
@@ -154,6 +157,5 @@ function reloadPage(){
 }
 reloadPage();
 
-//Hacer CSS
 //BONUS
  
