@@ -33,21 +33,14 @@ fetch(`http://api.tvmaze.com/search/shows?q=${userSearch}`)
         const showObject = showData[i].show;
         console.log(showObject);
         const showImageObject = showObject.image;
-        
-        const item = document.createElement('li');
-        item.setAttribute('class', 'show__item');
-        const titleContainer = document.createElement('h3');
-        const title = document.createTextNode(showObject.name);
+     
+        const item = createLi(showObject.name, 'show__item');
         const image = document.createElement('img');
 
-        titleContainer.appendChild(title);
         item.appendChild(image);
-        item.appendChild(titleContainer);
         listElement.appendChild(item);
         
-        //if
         if(!showImageObject){
-            //el show no tiene imagen, crear una imagen de relleno con placeholder https://via.placeholder.com/210x295/ffffff/666666/?text=TV
             image.src = 'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
         }else{
             const showOwnImage = showObject.image.medium;
@@ -59,6 +52,17 @@ fetch(`http://api.tvmaze.com/search/shows?q=${userSearch}`)
     
 })
 
+}
+function createLi(titleRoute, itemClass){
+        const item = document.createElement('li');
+        item.setAttribute('class', itemClass);
+        const titleContainer = document.createElement('h3');
+        const title = document.createTextNode(titleRoute);
+
+        titleContainer.appendChild(title);
+        item.appendChild(titleContainer);
+        
+        return item
 }
 //Agregar un listener al botón
 buttonElement.addEventListener('click', handlerClick);
@@ -95,18 +99,13 @@ function favorites(element){
 
 //si volvemos a realizar una nueva búsqueda, los favoritos se irán acumulando en nuestra lista.
 function createFavoritesList(element){
-    console.log(element);
     
-    const item = document.createElement('li');
-    item.setAttribute('class', 'favorites__item');
-    const titleContainer = document.createElement('h3');
-    const title = document.createTextNode(element.innerText);
+    const item = createLi(element.innerText, 'favorites__item');
+   
     const image = document.createElement('img');
-    image.src = element.firstChild.currentSrc;
+    image.src = element.lastElementChild.currentSrc;
 
-    titleContainer.appendChild(title);
     item.appendChild(image);
-    item.appendChild(titleContainer);
     listFavElement.appendChild(item);
 }
 
@@ -119,8 +118,8 @@ function createLiFromCacheObject(object, itemClass){
     const image = document.createElement('img');
     image.src = object.src;
     titleContainer.appendChild(title);
-    item.appendChild(image);
     item.appendChild(titleContainer);
+    item.appendChild(image);
     return item
 }
 
@@ -130,7 +129,7 @@ function saveCache(element){
 }
 
 function createObject(element){ 
-    return {name:element.innerText, src: element.firstChild.currentSrc}
+    return {name:element.innerText, src: element.lastElementChild.currentSrc}
 }
 
 function getCache(){

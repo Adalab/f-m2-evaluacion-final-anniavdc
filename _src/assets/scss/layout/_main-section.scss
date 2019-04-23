@@ -64,12 +64,13 @@
 	font-size: 0.8rem;
 	display: flex;
 	flex-direction: column;
-	align-content: flex-end;
+	align-items: flex-start;
 }
 .favorites__item{
 	display: flex;
 	align-items: center;
 	margin-bottom: 5px;
+	flex-direction: row-reverse;
 }
 .favorites__item > img{
 	height: 130px;
