@@ -9,7 +9,7 @@
     //input
 const inputElement = document.getElementById('search');
     //boton
-const buttonElement = document.querySelector('.button');
+const buttonElement = document.querySelector('.button-search');
     //ul shows
 const listElement = document.querySelector('.list-shows');
     //ul favorites
@@ -70,6 +70,7 @@ function handlerEvents(event) {
 function handlerItem(items){
     for (let i = 0; i < items.length; i++) {
       items[i].addEventListener('click', handlerEvents);
+      items[i].classList.add('non-favorites');
     }
 }
   
@@ -77,12 +78,16 @@ function handlerItem(items){
 //Crear un listado (array) con las series favoritas que almacenamos en una variable. Se mostrará en la parte izquierda de la pantalla, debajo del formulario de búqueda.
 
 function favorites(element){
-        element.classList.toggle('favorites');
-        if(element.classList.contains('favorites')){
+        if(element.classList.contains('non-favorites')){
+            element.classList.remove('non-favorites');
+            element.classList.add('favorites');
             favoritesArr.push(element);
             createFavoritesList(element);
+        }else if(favoritesArr.includes(element)){
+            const duplicated = favoritesCacheArr.indexOf(element);
+            favoritesCacheArr.splice(duplicated, 1);
+            console.log('Ya has incluido este show en favoritos'); 
         }
-        
 }
 //si volvemos a realizar una nueva búsqueda, los favoritos se irán acumulando en nuestra lista.
 function createFavoritesList(element){
