@@ -38,6 +38,7 @@ fetch(`http://api.tvmaze.com/search/shows?q=${userSearch}`)
         item.setAttribute('class', 'show__item');
         const title = document.createTextNode(showObject.name);
         const image = document.createElement('img');
+
         item.appendChild(image);
         item.appendChild(title);
         listElement.appendChild(item);
@@ -94,12 +95,14 @@ function createFavoritesList(element){
     console.log(element);
     
     const item = document.createElement('li');
-    item.setAttribute('class', 'favorites__item')
+    item.setAttribute('class', 'favorites__item');
+    const itemTitle = document.createElement('h3');
     const itemContent = document.createTextNode(element.innerText);
     const image = document.createElement('img');
     image.src = element.lastElementChild.currentSrc;
 
-    item.appendChild(itemContent);
+    itemTitle.appendChild(itemContent);
+    item.appendChild(itemTitle);
     item.appendChild(image);
     listFavElement.appendChild(item);
 }
@@ -108,11 +111,13 @@ function createFavoritesList(element){
 function createLiFromCacheObject(object, itemClass){
     const item = document.createElement('li');
     item.setAttribute('class', itemClass);
+    const titleContainer = document.createElement('h3');
     const title = document.createTextNode(object.name);
     const image = document.createElement('img');
     image.src = object.src;
+    titleContainer.appendChild(title);
     item.appendChild(image);
-    item.appendChild(title);
+    item.appendChild(titleContainer);
     return item
 }
 

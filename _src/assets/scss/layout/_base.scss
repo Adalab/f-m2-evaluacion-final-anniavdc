@@ -6,6 +6,8 @@ body {
     background: $colorPrimary-100;
     color: $colorPrimary-700;
     font-family: $fontPrimary;
+    max-width: 1300px;
+    margin: auto;
 }
 
 button{
