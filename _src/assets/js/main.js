@@ -14,6 +14,7 @@ const buttonElement = document.querySelector('.button-search');
 const listElement = document.querySelector('.list-shows');
     //ul favorites
 const listFavElement = document.querySelector('.list-favorites');
+const buttonEraseElement = document.querySelector('.button-erase');
     //array vacío
 let favoritesArr = [];
 let favoritesCacheArr = [];
@@ -139,6 +140,10 @@ function getCache(){
     return arrParse;
 }
 
+function removeCache(){
+    localStorage.removeItem('favorites');
+}  
+
 function fillFavoritesWithUserSearch(arr){
     for(let i = 0; i < arr.length; i++){
         const li = createLiFromCacheObject(arr[i],'favorites__item');
@@ -156,5 +161,10 @@ function reloadPage(){
 }
 reloadPage();
 
-//BONUS
+function eraseFavorites(){
+    removeCache();
+    listFavElement.innerHTML = '';
+}
+
+buttonEraseElement.addEventListener('click', eraseFavorites);
  

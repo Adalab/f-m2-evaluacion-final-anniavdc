@@ -2,7 +2,7 @@
     width: 70%;
 }
 .page__section-favorites{
-    width: 30%;
+	width: 30%;
 }
 .list-shows{
     width: 100%;
@@ -21,7 +21,7 @@
 .show__item{
 	margin: 10px;
 	display: flex;
-	flex-direction: column;
+	flex-direction: column-reverse;
 	align-items: center;
 	font-size: 1.1rem;
 	font-weight: 700;
@@ -48,6 +48,7 @@
 }
 .page__title-favorites{
 	text-align: center;
+	font-size: 1.8rem;
 }
 .non-favorites{	
 	padding: 30px;
