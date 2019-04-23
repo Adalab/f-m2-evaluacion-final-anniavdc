@@ -106,10 +106,31 @@ function createFavoritesList(element){
     const image = document.createElement('img');
     image.src = element.lastElementChild.currentSrc;
 
+    const buttonItem = document.createElement('button');
+    buttonItem.setAttribute('class', 'button-item');
+    buttonItem.innerText = 'x';
+    
+    
+    item.appendChild(buttonItem);
     item.appendChild(image);
     listFavElement.appendChild(item);
+
+    const buttonsItem = document.querySelectorAll('.button-item');
+    console.log(buttonsItem);
+    
+    handlerFavorites(buttonsItem);
 }
 
+function handlerFavorites(items){
+    for(let i = 0; i < items.length; i++){
+        items[i].addEventListener('click', handlerFavEvents);
+    }
+}
+
+function handlerFavEvents(event){
+    const element = event.currentTarget;
+    element.parentElement.innerHTML = '';
+}
 //Vamos a almacenar el listado de favoritos en el localStorage. De esta forma, al recargar la página el listado de favoritos se mantiene
 function createLiFromCacheObject(object, itemClass){
     const item = document.createElement('li');
