@@ -17,9 +17,22 @@ function handlerClick(){
       listElement.innerHTML = '';
       for(let i = 0; i < showData.length; i++){
         const showObject = showData[i].show;
-        const showImageObject = showObject.image;
+        console.log(showObject);
+        const showDaysObject = showObject.schedule;
+        console.log(showDaysObject);
+        const showDaysArr = showDaysObject.days;
 
         const item = createLi(showObject.name, 'show__item');
+        for( let i = 0; i < showDaysArr.length; i++){
+          const day = document.createElement('p');
+          const dayContent = document.createTextNode(showDaysArr[i]);
+          day.appendChild(dayContent);
+          item.appendChild(day);
+        }
+        
+        
+        const showImageObject = showObject.image;
+
         const image = document.createElement('img');
         item.appendChild(image);
         listElement.appendChild(item);
@@ -58,9 +71,15 @@ function handlerEvents(event) {
 }
 function handlerItem(items){
   for (let i = 0; i < items.length; i++) {
-    items[i].addEventListener('click', handlerEvents);
+    items[i].addEventListener('click', renderName);
     items[i].classList.add('non-favorites');
   }
+}
+function renderName(event){
+  const element =  event.currentTarget;
+  const title = element.querySelector('h3');
+  console.log(title.innerText);
+
 }
 function favorites(element){
   if(element.classList.contains('non-favorites')){
