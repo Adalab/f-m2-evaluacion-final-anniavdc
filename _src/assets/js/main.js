@@ -54,7 +54,6 @@ buttonElement.addEventListener('click', handlerClick);
 function handlerEvents(event) {
   const element = event.currentTarget;
   favorites(element);
-  saveCache(element);
 }
 function handlerItem(items){
   for (let i = 0; i < items.length; i++) {
@@ -68,10 +67,7 @@ function favorites(element){
     element.classList.add('favorites');
     favoritesArr.push(element);
     createFavoritesList(element);
-  }else if(favoritesArr.includes(element)){
-    const duplicated = favoritesCacheArr.indexOf(element);
-    favoritesCacheArr.splice(duplicated, 1);
-    console.log('Ya has incluido este show en favoritos');
+    saveCache(element);
   }
 }
 
