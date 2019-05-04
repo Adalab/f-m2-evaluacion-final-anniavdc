@@ -68,6 +68,32 @@ function favorites(element){
     favoritesArr.push(element);
     createFavoritesList(element);
     saveCache(element);
+  }else if(element.classList.contains('favorites')){
+    element.classList.add('non-favorites');
+    element.classList.remove('favorites');
+    nonFavorites(element);
+
+  }
+}
+function nonFavorites(element){
+  const img = element.querySelector('img');
+  const src = img.src;
+  const elementCacheIndex = favoritesCacheArr.findIndex(item => item.src === src);
+  favoritesCacheArr.splice(elementCacheIndex, 1);
+  localStorage.setItem('favorites', JSON.stringify(favoritesCacheArr));
+
+  const elementIndex = favoritesArr.findIndex(function(item){
+    const img = item.querySelector('img');
+    return img.src === src;
+  });
+  favoritesArr.splice(elementIndex, 1);
+
+  const favElementImg = listFavElement.querySelectorAll('img');
+  for(let i = 0; i < favElementImg.length; i++){
+    const li = favElementImg[i].parentElement;
+    if(favElementImg[i].src === src){
+      listFavElement.removeChild(li);
+    }
   }
 }
 
@@ -100,14 +126,13 @@ function deleteFavElement(event){
   const element = event.currentTarget;
 
   deleteFavElementFromList(favoritesArr, element);
-
   deleteFavElementFromCache(element);
+
   localStorage.setItem('favorites', JSON.stringify(favoritesCacheArr));
 }
 
 function deleteFavElementFromList(arr, element){
   const parentElement = element.parentNode;
-
   const elementIndex = arr.indexOf(parentElement);
   arr.splice(elementIndex, 1);
   listFavElement.removeChild(parentElement);
@@ -121,7 +146,7 @@ function deleteFavElementFromCache(element){
   //   return item.src === src;
   // });
   const elementIndexCache = favoritesCacheArr.findIndex(item => item.src === src);
-  favoritesCacheArr.splice(elementIndexCache, 1); 
+  favoritesCacheArr.splice(elementIndexCache, 1);
 }
 
 function createLiFromCacheObject(object, itemClass){
