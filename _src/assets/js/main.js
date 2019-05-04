@@ -86,18 +86,42 @@ function createFavoritesList(element){
 
   const buttonsItem = document.querySelectorAll('.button-item');
 
-  handlerFavorites(buttonsItem);
+  handlerBtnFavorites(buttonsItem);
 }
 
-function handlerFavorites(items){
+function handlerBtnFavorites(items){
   for(let i = 0; i < items.length; i++){
-    items[i].addEventListener('click', handlerFavEvents);
+    items[i].addEventListener('click', deleteFavElement);
   }
 }
 
-function handlerFavEvents(event){
+
+function deleteFavElement(event){
   const element = event.currentTarget;
-  element.parentElement.innerHTML = '';
+
+  deleteFavElementFromList(favoritesArr, element);
+
+  deleteFavElementFromCache(element);
+  localStorage.setItem('favorites', JSON.stringify(favoritesCacheArr));
+}
+
+function deleteFavElementFromList(arr, element){
+  const parentElement = element.parentNode;
+
+  const elementIndex = arr.indexOf(parentElement);
+  arr.splice(elementIndex, 1);
+  listFavElement.removeChild(parentElement);
+}
+function deleteFavElementFromCache(element){
+  const parentElement = element.parentNode;
+  const imgElement = parentElement.querySelector('img');
+  const src = imgElement.src;
+
+  // const elementIndexCache = favoritesCacheArr.findIndex((item) =>{
+  //   return item.src === src;
+  // });
+  const elementIndexCache = favoritesCacheArr.findIndex(item => item.src === src);
+  favoritesCacheArr.splice(elementIndexCache, 1); 
 }
 
 function createLiFromCacheObject(object, itemClass){
@@ -108,8 +132,18 @@ function createLiFromCacheObject(object, itemClass){
   const image = document.createElement('img');
   image.src = object.src;
   titleContainer.appendChild(title);
+  const buttonItem = document.createElement('button');
+  buttonItem.setAttribute('class', 'button-item');
+  buttonItem.innerText = 'x';
+
   item.appendChild(titleContainer);
+  item.appendChild(buttonItem);
   item.appendChild(image);
+  listFavElement.appendChild(item);
+
+  const buttonsItem = document.querySelectorAll('.button-item');
+  handlerBtnFavorites(buttonsItem);
+
   return item;
 }
 
